@@ -111,7 +111,7 @@
     <!-- Navbar -->
     <nav>
         <div class="nav-left">
-            <img src="" alt="">
+            <img src="images/wikrama-logo.png" alt="">
             <span>Inventory</span>
         </div>
 
@@ -120,28 +120,24 @@
 
     <!-- Content -->
     <section>
-        <h1>Our system flow</h1>
-        <p class="subtitle">Our inventory system workflow</p>
+        <h1>Manajemen Peminjaman</h1>
+        <p class="subtitle">(Inventaris)</p>
 
         <div class="grid">
 
             <div class="card blue">
-                <img src="">
                 <p>Items Data</p>
             </div>
 
             <div class="card yellow">
-                <img src="">
                 <p>Management Technician</p>
             </div>
 
             <div class="card purple">
-                <img src="">
                 <p>Managed Lending</p>
             </div>
 
             <div class="card green">
-                <img src="">
                 <p>All Can Borrow</p>
             </div>
 
