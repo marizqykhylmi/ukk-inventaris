@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Lending extends Model
+{
+    protected $fillable = [
+        'item_id',
+        'user_id',
+        'quantity',
+        'name',
+        'peminjam',
+        'keterangan',
+        'borrowed_at',
+        'returned_at'
+    ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}

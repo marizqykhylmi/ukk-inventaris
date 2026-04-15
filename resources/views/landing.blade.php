@@ -115,7 +115,7 @@
             <span>Inventory</span>
         </div>
 
-        <a href="" class="btn-login">Login</a>
+        <a href="/login" class="btn-login">Login</a>
     </nav>
 
     <!-- Content -->

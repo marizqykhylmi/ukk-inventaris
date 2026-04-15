@@ -12,18 +12,24 @@
         font-family: Arial, sans-serif;
     }
 
+    /* LOCK BODY SCROLL */
     body {
-        display: flex;
+        height: 100vh;
+        overflow: hidden;
         background: #f1f5f9;
+        display: flex;
     }
 
-    /* Sidebar */
+    /* SIDEBAR FIX */
     .sidebar {
         width: 230px;
         height: 100vh;
         background: #1e3a8a;
         color: white;
         padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 0;
     }
 
     .sidebar h2 {
@@ -41,6 +47,7 @@
         border-radius: 6px;
         margin-bottom: 10px;
         transition: 0.2s;
+        justify-content: space-between;
     }
 
     .menu a:hover {
@@ -51,20 +58,23 @@
         background: #3b82f6;
     }
 
-    .icon {
-        width: 18px;
-        height: 18px;
-        fill: currentColor;
+    .menu-title {
+        margin: 20px 10px 10px;
+        font-size: 13px;
+        color: #c7d2fe;
     }
 
-    /* Main */
+    /* MAIN AREA */
     .main {
+        margin-left: 230px;
         flex: 1;
         display: flex;
         flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
     }
 
-    /* Topbar */
+    /* TOPBAR FIX */
     .topbar {
         background: white;
         padding: 15px 25px;
@@ -72,6 +82,7 @@
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        flex-shrink: 0;
     }
 
     .topbar-left {
@@ -104,11 +115,14 @@
         background: #dc2626;
     }
 
-    /* Content */
+    /* CONTENT SCROLL AREA */
     .content {
         padding: 30px;
+        flex: 1;
+        overflow-y: auto;
     }
 
+    /* CARD */
     .card {
         background: white;
         padding: 20px;
@@ -116,70 +130,50 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
 
-    .menu-title {
-    margin: 20px 10px 10px;
-    font-size: 13px;
-    color: #c7d2fe;
-}
+    /* SCROLLBAR */
+    .content::-webkit-scrollbar {
+        width: 6px;
+    }
 
-.menu a {
-    justify-content: space-between;
-}
-
-.menu a span.arrow {
-    margin-left: auto;
-    font-size: 16px;
-}
+    .content::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 10px;
+    }
 </style>
 </head>
 
 <body>
 
-<!-- Sidebar -->
+<!-- SIDEBAR -->
 <div class="sidebar">
     <h2>Menu</h2>
 
     <div class="menu">
-
-        <!-- Dashboard -->
-        <a href="" class="">
-            Dashboard
-        </a>
-
-        <!-- Section -->
-
-        <a href="" class="">
-            Items
-        </a>
-
-        <a href="" class="">
-            Lending
-        </a>
-
-        <a href="" class="">
-            Profile
-        </a>
-
+        <a href="/operator/dashboard">Dashboard</a>
+        <a href="/operator/items">Items</a>
+        <a href="/operator/lending">Lending</a>
+        <a href="/operator/profile">Profile</a>
     </div>
 </div>
 
-<!-- Main -->
+<!-- MAIN -->
 <div class="main">
 
-    <!-- Topbar -->
+    <!-- TOPBAR -->
     <div class="topbar">
         <div class="topbar-left">
-            <!-- GANTI GAMBAR DI SINI -->
-            <img src="" alt="logo">
+            <img src="/images/wikrama-logo.png" alt="logo">
             <h1>Dashboard Operator</h1>
         </div>
 
-        <a href="" class="logout-btn">Logout</a>
+        <a href="/login" class="logout-btn">Logout</a>
     </div>
 
-<div class="content">
-    @yield('content')
-</div>
+    <!-- CONTENT -->
+    <div class="content">
+        @yield('content')
+    </div>
+
 </div>
 
 </body>
