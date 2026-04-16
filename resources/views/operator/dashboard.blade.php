@@ -5,103 +5,169 @@
 @section('content')
 
 <style>
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
+/* HERO */
+.hero {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    padding: 18px;
+    border-radius: 16px;
+    margin-bottom: 16px;
 }
 
-.card-box {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    transition: 0.2s;
+.hero h2 {
+    font-size: 18px;
 }
 
-.card-box:hover {
-    transform: translateY(-3px);
-}
-
-.card-title {
+.hero p {
     font-size: 13px;
-    color: #6b7280;
+    opacity: 0.7;
+    margin-top: 4px;
 }
 
-.card-value {
+/* METRICS */
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.metric {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: #3b82f6;
+}
+
+.metric.green::before { background: #10b981; }
+.metric.red::before { background: #ef4444; }
+
+.metric-title {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.metric-value {
     font-size: 22px;
-    font-weight: bold;
-    margin-top: 5px;
+    font-weight: 700;
+    margin-top: 6px;
 }
 
-.table {
+/* TABLE WRAPPER */
+.table-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* HEADER */
+.table-header {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header strong {
+    font-size: 14px;
+}
+
+/* TABLE */
+table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
-.table th {
-    background: #f3f4f6;
+th {
     text-align: left;
-    padding: 12px;
-    font-size: 14px;
-}
-
-.table td {
-    padding: 12px;
-    border-top: 1px solid #eee;
-    font-size: 14px;
-}
-
-.badge {
-    padding: 4px 8px;
-    border-radius: 6px;
     font-size: 12px;
+    padding: 12px;
+    color: var(--muted);
+    background: var(--bg);
 }
 
-.badge-success {
-    background: #dcfce7;
-    color: #166534;
+td {
+    padding: 12px;
+    font-size: 13px;
+    border-top: 1px solid var(--border);
 }
 
-.badge-danger {
-    background: #fee2e2;
-    color: #991b1b;
+/* ROW HOVER */
+tr:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+body[data-theme="dark"] tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* STATUS */
+.badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.ok {
+    background: rgba(16,185,129,0.15);
+    color: #10b981;
+}
+
+.wait {
+    background: rgba(239,68,68,0.15);
+    color: #ef4444;
 }
 </style>
 
-<div class="card-box" style="margin-bottom:15px;">
-    <h3>👋 Welcome Operator</h3>
-    <p>Monitoring data peminjaman barang secara real-time.</p>
+<!-- HERO -->
+<div class="hero">
+    <h2>👋 Operator Dashboard</h2>
+    <p>Realtime monitoring sistem peminjaman barang & inventory</p>
 </div>
 
-<div class="dashboard-grid">
+<!-- METRICS -->
+<div class="metrics">
 
-    <div class="card-box">
-        <div class="card-title">Total Items</div>
-        <div class="card-value">{{ $totalItems }}</div>
+    <div class="metric">
+        <div class="metric-title">Total Items</div>
+        <div class="metric-value">{{ $totalItems }}</div>
     </div>
 
-    <div class="card-box">
-        <div class="card-title">Active Lending</div>
-        <div class="card-value">{{ $activeLending }}</div>
+    <div class="metric green">
+        <div class="metric-title">Active Lending</div>
+        <div class="metric-value">{{ $activeLending }}</div>
     </div>
 
-    <div class="card-box">
-        <div class="card-title">Returned</div>
-        <div class="card-value">{{ $returnedLending }}</div>
+    <div class="metric red">
+        <div class="metric-title">Returned</div>
+        <div class="metric-value">{{ $returnedLending }}</div>
     </div>
 
 </div>
 
-<div class="card-box" style="margin-bottom:15px;">
-    <h3 style="margin-bottom:10px;">📋 Latest Lending</h3>
+<!-- TABLE -->
+<div class="table-box">
 
-    <table class="table">
+    <div class="table-header">
+        <strong>📋 Latest Lending Activity</strong>
+    </div>
+
+    <table>
         <thead>
             <tr>
                 <th>Item</th>
@@ -113,29 +179,32 @@
         </thead>
 
         <tbody>
-            @forelse($latestLending as $lend)
-                <tr>
-                    <td>{{ $lend->item->name ?? '-' }}</td>
-                    <td>{{ $lend->name }}</td>
-                    <td>{{ $lend->quantity }}</td>
-                    <td>
-                        @if($lend->returned_at)
-                            <span class="badge badge-success">Returned</span>
-                        @else
-                            <span class="badge badge-danger">Active</span>
-                        @endif
-                    </td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($lend->borrowed_at)->format('d M Y H:i') }}
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5">No data available</td>
-                </tr>
-            @endforelse
+        @forelse($latestLending as $lend)
+            <tr>
+                <td>{{ $lend->item->name ?? '-' }}</td>
+                <td>{{ $lend->name }}</td>
+                <td>{{ $lend->quantity }}</td>
+                <td>
+                    @if($lend->returned_at)
+                        <span class="badge ok">Returned</span>
+                    @else
+                        <span class="badge wait">Active</span>
+                    @endif
+                </td>
+                <td>
+                    {{ \Carbon\Carbon::parse($lend->borrowed_at)->format('d M Y H:i') }}
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" style="text-align:center; padding:16px; color:var(--muted);">
+                    No activity found
+                </td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
+
 </div>
 
 @endsection

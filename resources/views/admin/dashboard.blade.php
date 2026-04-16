@@ -3,77 +3,138 @@
 @section('content')
 
 <style>
-.dashboard-title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
+:root {
+    --card: #ffffff;
+    --bg: #f6f7fb;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
 }
 
-/* GRID CARDS */
+/* DARK MODE */
+body[data-theme="dark"] {
+    --card: #1f2937;
+    --bg: #111827;
+    --border: #374151;
+    --text: #f9fafb;
+    --muted: #9ca3af;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* HEADER */
+.dashboard-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+/* GRID */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
 }
 
 /* CARD */
 .card {
-    background: white;
+    background: var(--card);
     padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    transition: 0.2s;
-    font-size: 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle glow accent */
+.card::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(99,102,241,0.15);
+    top: -40px;
+    right: -40px;
+    border-radius: 50%;
+    filter: blur(10px);
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.08);
 }
 
-/* COLOR ACCENT */
-.card.blue { border-left: 4px solid #3b82f6; }
-.card.green { border-left: 4px solid #10b981; }
-.card.yellow { border-left: 4px solid #f59e0b; }
-.card.red { border-left: 4px solid #ef4444; }
-.card.purple { border-left: 4px solid #8b5cf6; }
+/* TEXT */
+.card-title {
+    font-size: 13px;
+    color: var(--muted);
+}
 
-/* VALUE */
 .card .value {
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 26px;
+    font-weight: 700;
     margin-top: 8px;
 }
 
+/* ACCENT BAR */
+.card {
+    border-left: 5px solid transparent;
+}
+
+.card.blue { border-left-color: #3b82f6; }
+.card.green { border-left-color: #10b981; }
+.card.yellow { border-left-color: #f59e0b; }
+.card.red { border-left-color: #ef4444; }
+.card.purple { border-left-color: #8b5cf6; }
+
 /* SECTION TITLE */
 .section-title {
-    margin-top: 30px;
+    margin-top: 32px;
     font-size: 18px;
     font-weight: 600;
 }
 
-/* TABLE */
+/* TABLE WRAPPER */
 .table {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 14px;
     border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
+    background: var(--card);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
 }
 
+/* HEADER */
 .table th {
-    background: #f3f4f6;
-    padding: 12px;
+    background: rgba(99,102,241,0.08);
+    padding: 14px;
     text-align: left;
     font-size: 13px;
+    color: var(--muted);
 }
 
+/* ROW */
 .table td {
-    padding: 12px;
-    border-top: 1px solid #eee;
+    padding: 14px;
     font-size: 13px;
+    border-top: 1px solid var(--border);
+}
+
+/* HOVER ROW */
+.table tr:hover {
+    background: rgba(99,102,241,0.05);
+}
+
+/* smooth feel */
+.table tr {
+    transition: 0.2s;
 }
 </style>
 
@@ -83,32 +144,32 @@
 <div class="dashboard-grid">
 
     <div class="card blue">
-        Total Items
+        <div class="card-title">Total Items</div>
         <div class="value">{{ $totalItems }}</div>
     </div>
 
     <div class="card purple">
-        Categories
+        <div class="card-title">Categories</div>
         <div class="value">{{ $totalCategories }}</div>
     </div>
 
     <div class="card yellow">
-        Active Lending
+        <div class="card-title">Active Lending</div>
         <div class="value">{{ $totalLending }}</div>
     </div>
 
     <div class="card green">
-        Returned
+        <div class="card-title">Returned</div>
         <div class="value">{{ $totalReturned }}</div>
     </div>
 
     <div class="card red">
-        Lost Items
+        <div class="card-title">Lost Items</div>
         <div class="value">{{ $totalLost }}</div>
     </div>
 
     <div class="card red">
-        Damaged Items
+        <div class="card-title">Damaged Items</div>
         <div class="value">{{ $totalDamaged }}</div>
     </div>
 

@@ -4,58 +4,167 @@
 
 @section('content')
 
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-    <h2 style="margin: 0; color: #1e293b;">Items List</h2>
+<style>
+/* HEADER */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.page-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* ALERT */
+.alert {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: rgba(16,185,129,0.12);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,0.25);
+}
+
+.alert-error {
+    background: rgba(239,68,68,0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239,68,68,0.25);
+}
+
+/* TABLE WRAPPER (IMPORTANT FIX) */
+.table-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* SCROLL WRAP */
+.table-wrap {
+    overflow-x: auto;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px; /* biar ga sempit */
+}
+
+/* HEADER */
+th {
+    text-align: left;
+    font-size: 13px;
+    padding: 16px 18px;
+    background: var(--bg);
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+/* ROW */
+td {
+    padding: 16px 18px;
+    font-size: 14px; /* 🔥 INI PENTING biar ga kecil */
+    border-top: 1px solid var(--border);
+}
+
+/* HOVER */
+tr:hover {
+    background: rgba(0,0,0,0.03);
+}
+
+body[data-theme="dark"] tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* TEXT EMPHASIS */
+.num-green {
+    color: #10b981;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.num-yellow {
+    color: #f59e0b;
+    font-weight: 700;
+    font-size: 14px;
+}
+</style>
+
+<!-- HEADER -->
+<div class="page-header">
+    <h2>📦 Items Inventory</h2>
 </div>
 
+<!-- ALERT -->
 @if(session('success'))
-    <div style="background:#10b981; color:white; padding:12px 16px; border-radius:6px; margin-bottom:20px; font-weight:500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <div class="alert alert-success">
         {{ session('success') }}
     </div>
 @endif
 
 @if(session('error'))
-    <div style="background:#ef4444; color:white; padding:12px 16px; border-radius:6px; margin-bottom:20px; font-weight:500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+    <div class="alert alert-error">
         {{ session('error') }}
     </div>
 @endif
 
-<div class="card" style="background: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); overflow: hidden; border: 1px solid #e2e8f0;">
-    
-    <div style="overflow-x: auto;">
-        <table style="width:100%; border-collapse:collapse; text-align: left; white-space: nowrap;">
+<!-- TABLE -->
+<div class="table-card">
+
+    <div class="table-wrap">
+
+        <table>
 
             <thead>
-                <tr style="background:#f8fafc; border-bottom: 2px solid #e2e8f0; color: #475569; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                    <th style="padding: 16px; font-weight: 600;">#</th>
-                    <th style="padding: 16px; font-weight: 600;">Category</th>
-                    <th style="padding: 16px; font-weight: 600;">Name</th>
-                    <th style="padding: 16px; font-weight: 600; text-align: center;">Total</th>
-                    <th style="padding: 16px; font-weight: 600; text-align: center;">Available</th>
-                    <th style="padding: 16px; font-weight: 600; text-align: center;">Lending</th>
+                <tr>
+                    <th>#</th>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Total</th>
+                    <th>Available</th>
+                    <th>Borrowed</th>
                 </tr>
             </thead>
 
             <tbody>
                 @forelse($items as $i => $item)
-                <tr style="border-bottom:1px solid #f1f5f9; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
-                    <td style="padding: 16px; color: #64748b;">{{ $i+1 }}</td>
-                    <td style="padding: 16px; color: #334155; font-weight: 500;">{{ $item->category->name ?? '-' }}</td>
-                    <td style="padding: 16px; color: #334155;">{{ $item->name }}</td>
-                    <td style="padding: 16px; color: #64748b; text-align: center;">{{ $item->total }}</td>
-                    <td style="padding: 16px; color: #10b981; text-align: center; font-weight: 600;">{{ $item->available }}</td>
-                    <td style="padding: 16px; color: #f59e0b; text-align: center; font-weight: 600;">{{ $item->total - $item->available }}</td>
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $item->category->name ?? '-' }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->total }}</td>
+
+                    <td class="num-green">
+                        {{ $item->available }}
+                    </td>
+
+                    <td class="num-yellow">
+                        {{ $item->total - $item->available }}
+                    </td>
+
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" style="padding: 32px; text-align: center; color: #94a3b8; font-style: italic;">
-                        Belum ada item yang terdaftar.
+                    <td colspan="6" style="text-align:center; padding:28px; color:var(--muted); font-size:14px;">
+                        No items found
                     </td>
                 </tr>
                 @endforelse
             </tbody>
 
         </table>
+
     </div>
 
 </div>

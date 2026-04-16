@@ -48,6 +48,12 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/', function () {
             return redirect()->route('admin.dashboard');
         });
+        Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])
+            ->name('admin.profile.photo');
+
+        Route::get('/profile', function () {
+            return view('admin.profile');
+        })->name('admin.profile');
 
         Route::resource('categories', CategoryController::class);
         Route::resource('items', ItemController::class);

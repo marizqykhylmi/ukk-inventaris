@@ -1,106 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Inventory</title>
+<meta charset="UTF-8">
+<title>Login - Inventory</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            width: 350px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+/* BACKGROUND */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    overflow: hidden;
+}
 
-        .login-container h2 {
-            margin-bottom: 20px;
-        }
+/* FLOATING BLUR SHAPES */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 0;
+}
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+body::before {
+    background: #3b82f6;
+    top: -100px;
+    left: -100px;
+}
 
-        .input-group label {
-            font-size: 14px;
-            display: block;
-            margin-bottom: 5px;
-        }
+body::after {
+    background: #10b981;
+    bottom: -100px;
+    right: -100px;
+}
 
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            outline: none;
-            transition: 0.2s;
-        }
+/* CARD */
+.login-container {
+    position: relative;
+    z-index: 1;
+    width: 380px;
+    padding: 30px;
+    border-radius: 16px;
 
-        .input-group input:focus {
-            border-color: #3b82f6;
-        }
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-        .btn-login {
-            width: 100%;
-            padding: 10px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 15px;
-        }
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    color: white;
+}
 
-        .btn-login:hover {
-            background: #2563eb;
-        }
+/* TITLE */
+.login-container h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
 
-        .error {
-            color: red;
-            margin-top: 10px;
-            font-size: 14px;
-        }
+.login-container p {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
 
-    </style>
+/* INPUT GROUP */
+.input-group {
+    margin-bottom: 14px;
+}
+
+.input-group label {
+    font-size: 12px;
+    display: block;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+/* INPUT */
+.input-group input {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    outline: none;
+    transition: 0.2s;
+}
+
+/* FOCUS */
+.input-group input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+}
+
+/* BUTTON */
+.btn-login {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
+
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(59,130,246,0.25);
+}
+
+/* ERROR */
+.error {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #f87171;
+    text-align: center;
+}
+
+/* SMALL FOOTER TEXT */
+.small-text {
+    margin-top: 12px;
+    font-size: 11px;
+    opacity: 0.5;
+    text-align: center;
+}
+</style>
+
 </head>
+
 <body>
 
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-container">
 
-        <form method="POST" action="/login">
-            @csrf
+    <h2>Welcome Back</h2>
+    <p>Login to your Inventory System</p>
 
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="Masukkan email" required>
-            </div>
+    <form method="POST" action="/login">
+        @csrf
 
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Masukkan password" required>
-            </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+        </div>
 
-            <button type="submit" class="btn-login">Login</button>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="••••••••" required>
+        </div>
 
-            @if(session('error'))
-                <p class="error">{{ session('error') }}</p>
-            @endif
-        </form>
+        <button type="submit" class="btn-login">
+            Sign In
+        </button>
+
+        @if(session('error'))
+            <p class="error">{{ session('error') }}</p>
+        @endif
+    </form>
+
+    <div class="small-text">
+        Inventory System © {{ date('Y') }}
     </div>
+
+</div>
 
 </body>
 </html>

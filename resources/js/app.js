@@ -1,1 +1,2 @@
-import './bootstrap';
+// kosong juga gapapa
+console.log("Vite jalan");
